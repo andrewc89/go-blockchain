@@ -1,3 +1,3 @@
-module example.com/gwely/blockchain
+module github.com/gwely/blockchain
 
 go 1.14

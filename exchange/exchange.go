@@ -2,6 +2,7 @@ package exchange
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 )
 
@@ -15,6 +16,15 @@ type CurrencyTicker struct {
 	Buy            float32 `json:"buy"`
 	Sell           float32 `json:"sell"`
 	Symbol         string  `json:"symbol"`
+}
+
+type ApiError struct {
+	Status string
+	Url    string
+}
+
+func (err ApiError) Error() string {
+	return fmt.Sprintf("Received %s from %s", err.Status, err.Url)
 }
 
 func NewBlockchainExchange() *BlockchainExchange {
@@ -33,6 +43,9 @@ func (e *BlockchainExchange) Ticker(currency string) (*CurrencyTicker, error) {
 	resp, err := http.Get(endpoint)
 	if err != nil {
 		return nil, err
+	}
+	if resp.Status != "200" {
+		return nil, ApiError{resp.Status, endpoint}
 	}
 	defer resp.Body.Close()
 	tickers := make(map[string]CurrencyTicker)

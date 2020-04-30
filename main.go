@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"example.com/gwely/blockchain/exchange"
+	"github.com/gwely/blockchain/exchange"
 )
 
 func main() {
