@@ -3,11 +3,11 @@ package main
 import (
 	"fmt"
 
-	"github.com/gwely/blockchain/exchange"
+	"github.com/gwely/go-blockchain/blockchain"
 )
 
 func main() {
-	exchange := exchange.NewBlockchainExchange()
+	exchange := blockchain.NewBlockchainExchange()
 	ticker, err := exchange.Ticker("USD")
 	if err != nil {
 		panic(err)

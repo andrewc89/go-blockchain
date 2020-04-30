@@ -1,4 +1,4 @@
-package exchange
+package blockchain
 
 import (
 	"encoding/json"
@@ -44,7 +44,7 @@ func (e *BlockchainExchange) Ticker(currency string) (*CurrencyTicker, error) {
 	if err != nil {
 		return nil, err
 	}
-	if resp.Status != "200" {
+	if resp.Status != "200 OK" {
 		return nil, ApiError{resp.Status, endpoint}
 	}
 	defer resp.Body.Close()

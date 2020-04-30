@@ -1,3 +1,3 @@
-module github.com/gwely/blockchain
+module github.com/gwely/go-blockchain
 
 go 1.14
