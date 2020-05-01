@@ -22,5 +22,8 @@ type Endpoint struct {
 }
 
 func (endpoint *Endpoint) String() string {
+	if len(endpoint.QueryParameters) == 0 {
+		return fmt.Sprintf("%s", endpoint.BaseUrl)
+	}
 	return fmt.Sprintf("%s?%s", endpoint.BaseUrl, endpoint.QueryParameters.String())
 }
