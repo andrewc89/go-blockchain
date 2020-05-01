@@ -2,7 +2,6 @@ package blockchain
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 )
 
@@ -18,15 +17,6 @@ type CurrencyTicker struct {
 	Symbol         string  `json:"symbol"`
 }
 
-type ApiError struct {
-	Status string
-	Url    string
-}
-
-func (err ApiError) Error() string {
-	return fmt.Sprintf("Received %s from %s", err.Status, err.Url)
-}
-
 const path = "https://blockchain.info/ticker"
 
 func (exchange *BlockchainExchange) Ticker(currency string) (*CurrencyTicker, error) {
@@ -35,7 +25,6 @@ func (exchange *BlockchainExchange) Ticker(currency string) (*CurrencyTicker, er
 		qps["apiCode"] = *exchange.apiCode
 	}
 	endpoint := Endpoint{path, QueryParameters(qps)}
-	fmt.Println(endpoint.String())
 	resp, err := http.Get(endpoint.String())
 	if err != nil {
 		return nil, err
