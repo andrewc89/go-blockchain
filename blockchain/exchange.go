@@ -27,25 +27,21 @@ func (err ApiError) Error() string {
 	return fmt.Sprintf("Received %s from %s", err.Status, err.Url)
 }
 
-func NewBlockchainExchange() *BlockchainExchange {
-	return &BlockchainExchange{}
-}
+const path = "https://blockchain.info/ticker"
 
-func NewBlockchainExchangeWithAuth(apiCode *string) *BlockchainExchange {
-	return &BlockchainExchange{
-		apiCode: apiCode,
+func (exchange *BlockchainExchange) Ticker(currency string) (*CurrencyTicker, error) {
+	qps := make(map[string]string)
+	if exchange.apiCode != nil {
+		qps["apiCode"] = *exchange.apiCode
 	}
-}
-
-const endpoint = "https://blockchain.info/ticker"
-
-func (e *BlockchainExchange) Ticker(currency string) (*CurrencyTicker, error) {
-	resp, err := http.Get(endpoint)
+	endpoint := Endpoint{path, QueryParameters(qps)}
+	fmt.Println(endpoint.String())
+	resp, err := http.Get(endpoint.String())
 	if err != nil {
 		return nil, err
 	}
 	if resp.Status != "200 OK" {
-		return nil, ApiError{resp.Status, endpoint}
+		return nil, ApiError{resp.Status, endpoint.String()}
 	}
 	defer resp.Body.Close()
 	tickers := make(map[string]CurrencyTicker)

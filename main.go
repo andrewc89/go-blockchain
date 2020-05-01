@@ -7,10 +7,10 @@ import (
 )
 
 func main() {
-	exchange := blockchain.NewBlockchainExchange()
+	exchange := blockchain.BlockchainExchange{}
 	ticker, err := exchange.Ticker("USD")
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println(ticker)
+	fmt.Println(*ticker)
 }
