@@ -25,6 +25,7 @@ func (exchange *BlockchainExchange) Ticker(currency string) (*CurrencyTicker, er
 		qps["apiCode"] = *exchange.apiCode
 	}
 	endpoint := Endpoint{path, QueryParameters(qps)}
+
 	resp, err := http.Get(endpoint.String())
 	if err != nil {
 		return nil, err
@@ -33,11 +34,12 @@ func (exchange *BlockchainExchange) Ticker(currency string) (*CurrencyTicker, er
 		return nil, ApiError{resp.Status, endpoint.String()}
 	}
 	defer resp.Body.Close()
+
 	tickers := make(map[string]CurrencyTicker)
-	jsonErr := json.NewDecoder(resp.Body).Decode(&tickers)
-	if jsonErr != nil {
+	if jsonErr := json.NewDecoder(resp.Body).Decode(&tickers); jsonErr != nil {
 		return nil, jsonErr
 	}
+
 	ct := tickers[currency]
 	return &ct, nil
 }
