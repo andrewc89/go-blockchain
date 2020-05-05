@@ -8,9 +8,9 @@ import (
 
 func main() {
 	exchange := blockchain.BlockchainExchange{}
-	ticker, err := exchange.Ticker("USD")
+	val, err := exchange.Ticker("USD")
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println(*ticker)
+	fmt.Println(*val)
 }
